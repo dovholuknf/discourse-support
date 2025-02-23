@@ -1,0 +1,62 @@
+services:
+  chmod-container:
+    image: openziti/quickstart:latest
+    container_name: chmod-container
+    volumes:
+      - ha_docker:/mnt
+    networks:
+      - custom_network
+    command: /bin/bash -c "chown -R ziti:ziti /mnt"
+    user: root
+
+  controller1:
+    image: openziti/quickstart:latest
+    container_name: controller1
+    hostname: controller1
+    restart: always
+    command: ["sleep", "infinity"]
+    volumes:
+      - ha_docker:/mnt
+      - .:/init
+    networks:
+      custom_network:
+        aliases:
+          - controller1.docker.ziti
+          - controller1.aws.ziti
+
+  controller2:
+    image: openziti/quickstart:latest
+    container_name: controller2
+    hostname: controller2
+    restart: always
+    command: ["sleep", "infinity"]
+    volumes:
+      - ha_docker:/mnt
+      - .:/init
+    networks:
+      custom_network:
+        aliases:
+          - controller2.docker.ziti
+          - controller2.ocp.ziti
+
+  controller3:
+    image: openziti/quickstart:latest
+    container_name: controller3
+    hostname: controller3
+    restart: always
+    command: ["sleep", "infinity"]
+    volumes:
+      - ha_docker:/mnt
+      - .:/init
+    networks:
+      custom_network:
+        aliases:
+          - controller3.docker.ziti
+          - controller3.gcp.ziti
+
+networks:
+  custom_network:
+    driver: bridge
+
+volumes:
+  ha_docker:
