@@ -2,6 +2,7 @@ This will start a three node cluster using docker. It uses ziti 1.3.2, docker an
 
 Start docker compose (clean up first if starting over):
 ```
+docker compose pull
 docker compose down -v
 docker compose up
 ```
